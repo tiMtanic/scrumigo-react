@@ -6,6 +6,7 @@ erDiagram
     USER {
         ObjectId _id PK
         string name
+        string surname
         string email
         string passwordHash
         datetime createdAt
@@ -14,6 +15,7 @@ erDiagram
 
     SPRINT {
         ObjectId _id PK
+        number sprintNumber
         string name
         string goal
         date startDate
