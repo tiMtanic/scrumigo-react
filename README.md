@@ -28,10 +28,10 @@ erDiagram
     USERSTORY {
         ObjectId _id PK
         ObjectId sprintId FK
+        number userStoryNumber
         string title
         string description
         number storyPoints
-        string priority
         ObjectId createdBy FK
         datetime createdAt
         datetime updatedAt
@@ -39,19 +39,20 @@ erDiagram
 
     TASK {
         ObjectId _id PK
-        ObjectId userStoryId FK
-        ObjectId assigneeId FK
+        number taskNumber
+        number position
         string title
         string description
         string status
-        number Position
-        datetime blockedAt
+        ObjectId userStoryId FK
+        ObjectId assigneeId FK
         datetime createdAt
         datetime updatedAt
     }
 
     COMMENT {
         ObjectId _id PK
+        number commentNumber
         ObjectId taskId FK
         ObjectId authorId FK
         string content
