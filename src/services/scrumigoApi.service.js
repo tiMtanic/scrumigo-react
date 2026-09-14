@@ -14,4 +14,31 @@ scrumigoApiService.interceptors.request.use((config) => {
   return config;
 });
 
+export async function signUpAsync(name, surname, email, password) {
+  const body = {
+    name,
+    surname,
+    email,
+    password,
+  };
+
+  const response = await scrumigoApiService.post(`/auth/signup`, body);
+  return response.data;
+}
+
+export async function loginAsync(email, password) {
+  const body = {
+    email,
+    password,
+  };
+
+  const response = await scrumigoApiService.post("/auth/login", body);
+  return response.data;
+}
+
+export async function verifyAsync(email, password) {
+  const response = await scrumigoApiService.get("/auth/verify");
+  return response.data;
+}
+
 export default scrumigoApiService;

@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import scrumigoApiService from "../services/scrumigoApi.service.js";
+import scrumigoApiService, { verifyAsync } from "../services/scrumigoApi.service.js";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
@@ -22,9 +22,9 @@ function AuthWrapper({ children }) {
 
   const verifyUser = async () => {
     try {
-      const response = await scrumigoApiService.get("/auth/verify");
+      const result = await verifyAsync();
       setIsLoggedIn(true);
-      setUserId(response.data.payload._id);
+      setUserId(result.payload._id);
     } catch (error) {
       setIsLoggedIn(false);
       setUserId(null);

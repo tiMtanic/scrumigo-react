@@ -12,7 +12,7 @@ import {
 } from "@heroui/react";
 import { AuthContext } from "../../context/auth.context.jsx";
 import { useNavigate, Link } from "react-router-dom";
-import scrumigoApiService from "../../services/scrumigoApi.service.js";
+import scrumigoApiService, { signUpAsync } from "../../services/scrumigoApi.service.js";
 import { UserPlus } from "lucide-react";
 
 function SignupPage() {
@@ -33,17 +33,11 @@ function SignupPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    const body = {
-      name,
-      surname,
-      email,
-      password,
-    };
+
 
     try {
-      const response = await scrumigoApiService.post(`/auth/signup`, body);
-      console.log("response", response);
-      setUserVariables(response.data.authToken, response.data.payload);
+      const result = await signUpAsync(name, surname, email, password);
+      setUserVariables(result.authToken, result.payload);
       navigate("/");
     } catch (error) {
       if (error.response.status === 400) {
@@ -83,6 +77,7 @@ function SignupPage() {
                     <Input
                       placeholder="Parry"
                       variant="secondary"
+                      value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
                   </TextField>
@@ -91,6 +86,7 @@ function SignupPage() {
                     <Input
                       placeholder="Hotter"
                       variant="secondary"
+                      value={surname}
                       onChange={(e) => setSurname(e.target.value)}
                     />
                   </TextField>
@@ -99,6 +95,7 @@ function SignupPage() {
                     <Input
                       placeholder="email@example.com"
                       variant="secondary"
+                      value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </TextField>
@@ -107,6 +104,7 @@ function SignupPage() {
                     <Input
                       placeholder="••••••••"
                       variant="secondary"
+                      value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </TextField>

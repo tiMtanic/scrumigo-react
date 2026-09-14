@@ -12,7 +12,7 @@ import {
 } from "@heroui/react";
 import { AuthContext } from "../../context/auth.context";
 import { useNavigate, Link } from "react-router-dom";
-import scrumigoApiService from "../../services/scrumigoApi.service.js";
+import scrumigoApiService, { loginAsync } from "../../services/scrumigoApi.service.js";
 import { Key } from "lucide-react";
 
 function LoginPage() {
@@ -31,14 +31,9 @@ function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    const body = {
-      email,
-      password,
-    };
-
     try {
-      const response = await scrumigoApiService.post(`/auth/login`, body);
-      setUserVariables(response.data.authToken, response.data.payload);
+      const result = await loginAsync(email, password);
+      setUserVariables(result.authToken, result.payload);
       navigate("/");
     } catch (error) {
       if (error.response.status === 400) {
@@ -78,6 +73,7 @@ function LoginPage() {
                     <Input
                       placeholder="email@example.com"
                       variant="secondary"
+                      value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </TextField>
@@ -86,6 +82,7 @@ function LoginPage() {
                     <Input
                       placeholder="••••••••"
                       variant="secondary"
+                      value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </TextField>
