@@ -41,4 +41,40 @@ export async function verifyAsync(email, password) {
   return response.data;
 }
 
+export async function getSprintsAsync(populateUserStories = false) {
+  const response = await scrumigoApiService.get(
+    `/sprints?populateUserStories=${populateUserStories}`,
+  );
+  return response.data;
+}
+
+export async function getSprintAsync(sprintId) {
+  const response = await scrumigoApiService.get(
+    `/sprints/${sprintId}?populateStories=true`,
+  );
+  return response.data;
+}
+
+export async function createSprintAsync(sprint) {
+  const response = await scrumigoApiService.post("/sprints", sprint);
+  return response.data;
+}
+
+export async function updateSprintAsync(sprintId, sprint) {
+  const response = await scrumigoApiService.patch(
+    `/sprints/${sprintId}`,
+    sprint,
+  );
+  return response.data;
+}
+
+export async function getUserStoriesAsync() {
+  const response = await scrumigoApiService.get("/userStories");
+  return response.data;
+}
+
+export async function deleteSprintAsync(sprintId) {
+  await scrumigoApiService.delete(`/sprints/${sprintId}`);
+}
+
 export default scrumigoApiService;
