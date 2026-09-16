@@ -8,11 +8,8 @@ import {
   Typography,
 } from "@heroui/react";
 import {
-  ArrowLeft,
   CalendarDays,
-  Clock3,
   Edit2Icon,
-  Layers3,
   NotebookText,
   Target,
   Trash,
@@ -127,7 +124,7 @@ function SprintDetailsPage() {
             value={formatDate(sprint.endDate)}
           />
           <InfoCard
-            icon={Layers3}
+            icon={NotebookText}
             label="User stories"
             value={sprint.userStories?.length ?? 0}
           />

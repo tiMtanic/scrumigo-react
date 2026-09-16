@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import DashboardPage from "./pages/DashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignUpPage";
@@ -11,6 +10,9 @@ import PageLayout from "./components/PageLayout";
 import SprintsPage from "./pages/SprintsPage";
 import SprintDetailsPage from "./pages/SprintDetailsPage";
 import AddEditSprintPage from "./pages/AddEditSprintPage";
+import UserStoriesPage from "./pages/UserStoriesPage";
+import AddEditUserStoryPage from "./pages/AddEditUserStoryPage";
+import UserStoryDetailsPage from "./pages/UserStoryDetailsPage";
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -37,14 +39,6 @@ function App() {
             </div>
             <main className="flex flex-1 justify-around bg-background">
               <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <PageLayout pageTitle="Dashboard">
-                      <DashboardPage />
-                    </PageLayout>
-                  }
-                />
                 <Route
                   path="/sprints"
                   element={
@@ -74,6 +68,38 @@ function App() {
                   element={
                     <PageLayout>
                       <AddEditSprintPage mode="edit" />
+                    </PageLayout>
+                  }
+                />
+                <Route
+                  path="/userStories"
+                  element={
+                    <PageLayout pageTitle="User Stories">
+                      <UserStoriesPage />
+                    </PageLayout>
+                  }
+                />
+                <Route
+                  path="/userStories/add"
+                  element={
+                    <PageLayout>
+                      <AddEditUserStoryPage mode="create" />
+                    </PageLayout>
+                  }
+                />
+                <Route
+                  path="/userStories/:userStoryId/edit"
+                  element={
+                    <PageLayout>
+                      <AddEditUserStoryPage mode="edit" />
+                    </PageLayout>
+                  }
+                />
+                <Route
+                  path="/userStories/:userStoryId"
+                  element={
+                    <PageLayout>
+                      <UserStoryDetailsPage />
                     </PageLayout>
                   }
                 />

@@ -1,14 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { buttonVariants } from "@heroui/react";
-import { LayoutDashboard, Columns3, Timer, NotebookText } from "lucide-react";
+import { Columns3, Timer, NotebookText } from "lucide-react";
 
 function MainMenuContent({ onNavigate }) {
   const menuItems = [
-    {
-      text: "Dashboard",
-      path: "/",
-      icon: LayoutDashboard,
-    },
     {
       text: "Sprint Board",
       path: "/board",

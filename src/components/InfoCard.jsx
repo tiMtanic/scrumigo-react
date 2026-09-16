@@ -1,7 +1,7 @@
 import { Card } from "@heroui/react";
 import React from "react";
 
-function InfoCard({ icon: Icon, label, value }) {
+function InfoCard({ icon: Icon, label, value, description}) {
   return (
     <Card variant="secondary">
       <Card.Content className="flex flex-row items-center gap-4">
@@ -10,7 +10,10 @@ function InfoCard({ icon: Icon, label, value }) {
         </div>
         <div className="min-w-0">
           <p className="text-xs font-medium text-muted">{label}</p>
-          <p className="mt-0.5 font-semibold">{value}</p>
+          <p className="mt-0.5 truncate font-semibold">{value}</p>
+          {description && (
+            <p className="truncate text-xs text-muted">{description}</p>
+          )}
         </div>
       </Card.Content>
     </Card>

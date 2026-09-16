@@ -42,16 +42,20 @@ export async function verifyAsync(email, password) {
 }
 
 export async function getSprintsAsync(populateUserStories = false) {
-  const response = await scrumigoApiService.get(
-    `/sprints?populateUserStories=${populateUserStories}`,
-  );
+  const response = await scrumigoApiService.get("/sprints", {
+    params: {
+      populateUserStories,
+    },
+  });
   return response.data;
 }
 
 export async function getSprintAsync(sprintId) {
-  const response = await scrumigoApiService.get(
-    `/sprints/${sprintId}?populateStories=true`,
-  );
+  const response = await scrumigoApiService.get(`/sprints/${sprintId}`, {
+    params: {
+      populateUserStories: true,
+    },
+  });
   return response.data;
 }
 
@@ -68,13 +72,71 @@ export async function updateSprintAsync(sprintId, sprint) {
   return response.data;
 }
 
-export async function getUserStoriesAsync() {
-  const response = await scrumigoApiService.get("/userStories");
+export async function deleteSprintAsync(sprintId) {
+  await scrumigoApiService.delete(`/sprints/${sprintId}`);
+}
+
+export async function getUserStoriesAsync(populateSprint = false) {
+  const response = await scrumigoApiService.get(`/userStories`, {
+    params: {
+      populateSprint,
+    },
+  });
+
   return response.data;
 }
 
-export async function deleteSprintAsync(sprintId) {
-  await scrumigoApiService.delete(`/sprints/${sprintId}`);
+export async function getUserStoryAsync(
+  userStoryId,
+  populateSprint = false,
+  populateTasks = false,
+) {
+  const response = await scrumigoApiService.get(`/userStories/${userStoryId}`, {
+    params: {
+      populateSprint,
+      populateTasks,
+    },
+  });
+
+  return response.data;
+}
+
+export async function createUserStoryAsync(userStory) {
+  const response = await scrumigoApiService.post("/userStories", userStory);
+
+  return response.data;
+}
+
+export async function updateUserStoryAsync(userStoryId, userStory) {
+  const response = await scrumigoApiService.patch(
+    `/userStories/${userStoryId}`,
+    userStory,
+  );
+
+  return response.data;
+}
+
+export async function deleteUserStoryAsync(userStoryId) {
+  await scrumigoApiService.delete(`/userStories/${userStoryId}`);
+}
+
+export async function createTaskAsync(userStoryId, task) {
+  const response = await scrumigoApiService.post("/tasks", {
+    ...task,
+    userStoryId,
+  });
+
+  return response.data;
+}
+
+export async function updateTaskAsync(taskId, task) {
+  const response = await scrumigoApiService.patch(`/tasks/${taskId}`, task);
+
+  return response.data;
+}
+
+export async function deleteTaskAsync(taskId) {
+  await scrumigoApiService.delete(`/tasks/${taskId}`);
 }
 
 export default scrumigoApiService;
