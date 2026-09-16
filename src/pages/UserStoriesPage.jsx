@@ -1,6 +1,6 @@
-import { Button, Chip, Table } from "@heroui/react";
+import { Button, Chip, EmptyState, Table } from "@heroui/react";
 import React, { useEffect, useState } from "react";
-import { Edit2Icon, Plus, Trash } from "lucide-react";
+import { Edit2Icon, Inbox, Plus, Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   deleteUserStoryAsync,
@@ -66,7 +66,7 @@ function UserStoriesPage() {
         <Table.ScrollContainer>
           <Table.Content
             aria-label="User stories"
-            className="min-w-180"
+            className="h-full min-w-180"
             onRowAction={(id) => navigate(`/userStories/${id}`)}
           >
             <Table.Header>
@@ -77,7 +77,16 @@ function UserStoriesPage() {
               <Table.Column>Story Points</Table.Column>
               <Table.Column>Actions</Table.Column>
             </Table.Header>
-            <Table.Body>
+            <Table.Body
+              renderEmptyState={() => (
+                <EmptyState className="flex h-full w-full flex-col items-center justify-center gap-4 text-center">
+                  <Inbox className="size-6 text-muted" />
+                  <span className="text-sm text-muted">
+                    No user stories found
+                  </span>
+                </EmptyState>
+              )}
+            >
               {userStories.map((userStory) => (
                 <Table.Row
                   id={userStory._id}

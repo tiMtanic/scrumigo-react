@@ -1,10 +1,10 @@
-import { Button, Chip, Table } from "@heroui/react";
+import { Button, Chip, EmptyState, Table } from "@heroui/react";
 import React, { useEffect, useState } from "react";
 import {
   deleteSprintAsync,
   getSprintsAsync,
 } from "../services/scrumigoApi.service";
-import { Edit2Icon, Plus, Trash } from "lucide-react";
+import { Edit2Icon, Inbox, Plus, Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import DeleteSprintModal from "../components/DeleteSprintModal";
 
@@ -57,7 +57,7 @@ function SprintsPage() {
         <Table.ScrollContainer>
           <Table.Content
             aria-label="Sprints"
-            className="min-w-180"
+            className="h-full min-w-180"
             onRowAction={(id) => navigate(`/sprints/${id}`)}
           >
             <Table.Header>
@@ -69,7 +69,14 @@ function SprintsPage() {
               <Table.Column>Status</Table.Column>
               <Table.Column>Actions</Table.Column>
             </Table.Header>
-            <Table.Body>
+            <Table.Body
+              renderEmptyState={() => (
+                <EmptyState className="flex h-full w-full flex-col items-center justify-center gap-4 text-center">
+                  <Inbox className="size-6 text-muted" />
+                  <span className="text-sm text-muted">No sprints found</span>
+                </EmptyState>
+              )}
+            >
               {sprints.map((sprint) => (
                 <Table.Row
                   id={sprint._id}
