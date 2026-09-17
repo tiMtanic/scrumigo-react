@@ -63,30 +63,48 @@ export function SprintBoardProvider({ children }) {
     await loadSprint(false);
   };
 
-  const handleTaskStatusChange = async (task, status) => {
-    if (task.status === status) return;
+const handleTaskStatusChange = async (task, status) => {
+  if (task.status === status) return;
 
-    const assigneeId =
-      task.assigneeId && typeof task.assigneeId === "object"
-        ? task.assigneeId._id
-        : (task.assigneeId ?? null);
+  const previousSprintObject = sprint;
 
-    try {
-      await updateTaskAsync(task._id, {
-        title: task.title,
-        description: task.description,
-        status,
-        assigneeId,
-      });
+  setSprint((currentSprint) => ({
+    ...currentSprint,
+    userStories: currentSprint.userStories.map((userStory) => ({
+      ...userStory,
+      tasks: (userStory.tasks ?? []).map((currentTask) =>
+        currentTask._id === task._id
+          ? {
+              ...currentTask,
+              status,
+            }
+          : currentTask,
+      ),
+    })),
+  }));
 
-      await loadSprint(false);
-    } catch (error) {
-      console.log(error);
-      setErrorMessage(
-        error.response?.data?.errorMessage ?? "Could not update task status.",
-      );
-    }
-  };
+  const assigneeId =
+    task.assigneeId && typeof task.assigneeId === "object"
+      ? task.assigneeId._id
+      : (task.assigneeId ?? null);
+
+  try {
+    await updateTaskAsync(task._id, {
+      title: task.title,
+      description: task.description,
+      status,
+      assigneeId,
+    });
+
+    await loadSprint(false);
+  } catch (error) {
+    console.log(error);
+    setSprint(previousSprintObject);
+    setErrorMessage(
+      error.response?.data?.errorMessage ?? "Could not update task status.",
+    );
+  }
+};
 
   const getTasksByStatus = (userStory, status) => {
     return (userStory.tasks ?? []).filter((task) => task.status === status);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Card,
   Chip,
@@ -48,12 +48,17 @@ function SprintBoardPage() {
     sprint,
     isLoading,
     errorMessage,
+    loadSprint,
     handleUpdateTask,
     handleDeleteTask,
     handleTaskStatusChange,
     getTasksByStatus,
     countTasksByStatus,
   } = useContext(SprintBoardContext);
+
+  useEffect(() => {
+    loadSprint(false);
+  }, []);
 
   const formatDate = (date) => {
     if (!date) return "-";
