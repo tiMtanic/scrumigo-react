@@ -13,6 +13,7 @@ import AddEditSprintPage from "./pages/AddEditSprintPage";
 import UserStoriesPage from "./pages/UserStoriesPage";
 import AddEditUserStoryPage from "./pages/AddEditUserStoryPage";
 import UserStoryDetailsPage from "./pages/UserStoryDetailsPage";
+import SprintBoardPage from "./pages/SprintBoardPage";
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -39,6 +40,14 @@ function App() {
             </div>
             <main className="flex flex-1 justify-around bg-background">
               <Routes>
+                <Route
+                  path="/board"
+                  element={
+                    <PageLayout>
+                      <SprintBoardPage />
+                    </PageLayout>
+                  }
+                />
                 <Route
                   path="/sprints"
                   element={
