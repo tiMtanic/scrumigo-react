@@ -13,6 +13,7 @@ import {
   NotebookText,
   Target,
   Trash,
+  ArrowLeft,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -93,21 +94,31 @@ function SprintDetailsPage() {
       <div className="mx-auto w-full">
         {/* Sprint header */}
         <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div className="min-w-0">
-            <div className="mb-2 flex flex-wrap items-center gap-2">
-              <span className="text-sm font-medium text-muted">
-                Sprint-{sprint.sprintNumber}
-              </span>
-              <Chip
-                color={getStatusColor(sprint.status)}
-                className="px-2"
-                variant="soft"
-                size="sm"
-              >
-                {sprint.status}
-              </Chip>
+          <div className="flex min-w-0 items-start gap-3">
+            <Button
+              isIconOnly
+              variant="ghost"
+              aria-label="Go back"
+              onPress={() => navigate(-1)}
+            >
+              <ArrowLeft className="size-5" />
+            </Button>
+            <div className="min-w-0">
+              <div className="mb-2 flex flex-wrap items-center gap-2">
+                <span className="text-sm font-medium text-muted">
+                  Sprint-{sprint.sprintNumber}
+                </span>
+                <Chip
+                  color={getStatusColor(sprint.status)}
+                  className="px-2"
+                  variant="soft"
+                  size="sm"
+                >
+                  {sprint.status}
+                </Chip>
+              </div>
+              <Typography type="h2">{sprint.name}</Typography>
             </div>
-            <Typography type="h2">{sprint.name}</Typography>
           </div>
         </div>
 
@@ -172,7 +183,20 @@ function SprintDetailsPage() {
             ) : (
               <div className="divide-y divide-separator">
                 {sprint.userStories.map((story) => (
-                  <UserStoryRow key={story._id} story={story} />
+                  <div
+                    key={story._id}
+                    role="button"
+                    tabIndex={0}
+                    className="cursor-pointer transition-colors hover:bg-default/30"
+                    onClick={() => navigate(`/userStories/${story._id}`)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        navigate(`/userStories/${story._id}`);
+                      }
+                    }}
+                  >
+                    <UserStoryRow story={story} />
+                  </div>
                 ))}
               </div>
             )}

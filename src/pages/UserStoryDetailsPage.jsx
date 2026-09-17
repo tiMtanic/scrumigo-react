@@ -14,6 +14,8 @@ import {
   Plus,
   Timer,
   Trash,
+  ArrowLeft,
+  AlignLeft,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -131,30 +133,34 @@ function UserStoryDetailsPage() {
     <div className="mx-auto w-full">
       <div className="mb-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div className="min-w-0">
-            <div className="mb-2 flex flex-wrap items-center gap-2">
-              <span className="text-sm font-medium text-muted">
-                US-{userStory.userStoryNumber}
-              </span>
-              <Chip
-                size="sm"
-                variant="soft"
-                color={getStatusColor(userStory.status)}
-                className="px-2"
-              >
-                {getStatusLabel(userStory.status)}
-              </Chip>
+          <div className="flex min-w-0 items-start gap-3">
+            <Button
+              isIconOnly
+              variant="ghost"
+              aria-label="Go back"
+              onPress={() => navigate(-1)}
+            >
+              <ArrowLeft className="size-5" />
+            </Button>
+            <div className="min-w-0">
+              <div className="mb-2 flex flex-wrap items-center gap-2">
+                <span className="text-sm font-medium text-muted">
+                  US-{userStory.userStoryNumber}
+                </span>
+                <Chip
+                  size="sm"
+                  variant="soft"
+                  color={getStatusColor(userStory.status)}
+                  className="px-2"
+                >
+                  {getStatusLabel(userStory.status)}
+                </Chip>
+              </div>
+              <Typography type="h2">{userStory.title}</Typography>
             </div>
-            <Typography type="h2">{userStory.title}</Typography>
-            {userStory.description && (
-              <p className="mt-3 max-w-3xl whitespace-pre-line text-sm leading-relaxed text-muted">
-                {userStory.description}
-              </p>
-            )}
           </div>
         </div>
       </div>
-
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <InfoCard
           icon={Timer}
@@ -177,7 +183,19 @@ function UserStoryDetailsPage() {
           value={userStory.tasks?.length ?? 0}
         />
       </div>
-
+      <Card className="mb-6">
+        <Card.Header>
+          <div className="flex items-center gap-2">
+            <AlignLeft className="size-5 text-muted" />
+            <Card.Title>Description</Card.Title>
+          </div>
+        </Card.Header>
+        <Card.Content>
+          <p className="whitespace-pre-line leading-relaxed text-muted">
+            {userStory.description || "No description has been defined."}
+          </p>
+        </Card.Content>
+      </Card>
       <Card>
         <Card.Header className="flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">

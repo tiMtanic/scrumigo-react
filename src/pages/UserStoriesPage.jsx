@@ -1,4 +1,4 @@
-import { Button, Chip, EmptyState, Table } from "@heroui/react";
+import { Button, Chip, EmptyState, Spinner, Table } from "@heroui/react";
 import React, { useEffect, useState } from "react";
 import { Edit2Icon, Inbox, Plus, Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,8 @@ import DeleteUserStoryModal from "../components/DeleteUserStoryModal";
 
 function UserStoriesPage() {
   const [userStories, setUserStories] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,12 +20,14 @@ function UserStoriesPage() {
 
   const loadUserStories = async () => {
     setIsLoading(true);
+    setErrorMessage(null);
 
     try {
       const result = await getUserStoriesAsync(true);
       setUserStories(result);
     } catch (error) {
       console.log(error);
+      setErrorMessage("Could not load user stories.");
     } finally {
       setIsLoading(false);
     }
@@ -59,6 +62,25 @@ function UserStoriesPage() {
         return status;
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-64 items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <div className="flex min-h-64 flex-col items-center justify-center gap-4">
+        <p className="text-danger">{errorMessage}</p>
+        <Button variant="secondary" onPress={loadUserStories}>
+          Try again
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-2">

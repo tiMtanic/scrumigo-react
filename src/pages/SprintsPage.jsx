@@ -1,4 +1,4 @@
-import { Button, Chip, EmptyState, Table } from "@heroui/react";
+import { Button, Chip, EmptyState, Spinner, Table } from "@heroui/react";
 import React, { useEffect, useState } from "react";
 import {
   deleteSprintAsync,
@@ -10,7 +10,8 @@ import DeleteSprintModal from "../components/DeleteSprintModal";
 
 function SprintsPage() {
   const [sprints, setSprints] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,13 +20,14 @@ function SprintsPage() {
 
   const loadSprints = async () => {
     setIsLoading(true);
+    setErrorMessage(null);
 
     try {
       const result = await getSprintsAsync(true);
       setSprints(result);
     } catch (error) {
-      // TODO: error handling
       console.log(error);
+      setErrorMessage("Could not load sprints.");
     } finally {
       setIsLoading(false);
     }
@@ -50,6 +52,25 @@ function SprintsPage() {
         return "default";
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-64 items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <div className="flex min-h-64 flex-col items-center justify-center gap-4">
+        <p className="text-danger">{errorMessage}</p>
+        <Button variant="secondary" onPress={loadSprints}>
+          Try again
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-2">
@@ -87,7 +108,6 @@ function SprintsPage() {
                   <Table.Cell>
                     <div className="flex max-w-100 flex-col">
                       <span className="font-medium">{sprint.name}</span>
-
                       {sprint.goal && (
                         <span className="truncate text-xs text-muted">
                           {sprint.goal}
