@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoginPage from "./pages/auth/LoginPage";
-import SignupPage from "./pages/auth/SignUpPage";
+import SignupPage from "./pages/auth/SignupPage";
 import AppHeader from "./components/AppHeader";
 import { useContext } from "react";
 import { AuthContext } from "./context/auth.context";
