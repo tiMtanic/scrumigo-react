@@ -1,11 +1,30 @@
 import React from "react";
-import TaskModal from "./TaskModal";
 import { User } from "lucide-react";
+import TaskModal from "./TaskModal";
 
-function TaskBoardCard({ task, onUpdateTask, onDeleteTask }) {
-  const assignee = getAssigneeName(task);
+function TaskBoardCard({
+  task,
+  onUpdateTask,
+  onDeleteTask,
+  dragRef,
+  dragListeners,
+  dragAttributes,
+  dragStyle,
+  isDragging,
+}) {
+  const getAssigneeName = (task) => {
+    console.log(task);
+    if (!task.assigneeId) {
+      return "Unassigned";
+    }
 
-  function getTaskStatusClasses(status) {
+    const name =
+      `${task.assigneeId.name ?? ""} ${task.assigneeId.surname ?? ""}`.trim();
+
+    return name || "Unassigned";
+  };
+
+  const getTaskStatusClasses = (status) => {
     switch (status) {
       case "todo":
         return "border-default/30 bg-default/10";
@@ -16,25 +35,20 @@ function TaskBoardCard({ task, onUpdateTask, onDeleteTask }) {
       default:
         return "border-separator";
     }
-  }
+  };
 
-  function getAssigneeName(task) {
-    if (!task.assigneeId || typeof task.assigneeId === "string") {
-      return "Unassigned";
-    }
-
-    const name = `${task.assigneeId.name ?? ""} ${
-      task.assigneeId.surname ?? ""
-    }`.trim();
-
-    return name || "Unassigned";
-  }
+  const assignee = getAssigneeName(task);
 
   return (
     <TaskModal
       task={task}
       onUpdate={onUpdateTask}
       onDelete={onDeleteTask}
+      dragRef={dragRef}
+      dragListeners={dragListeners}
+      dragAttributes={dragAttributes}
+      dragStyle={dragStyle}
+      isDragging={isDragging}
       triggerClassName={`h-auto w-full justify-start rounded-xl border p-0 text-left ${getTaskStatusClasses(task.status)}`}
       trigger={
         <div className="w-full p-3 text-left">

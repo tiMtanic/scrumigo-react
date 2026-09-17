@@ -36,8 +36,13 @@ export async function loginAsync(email, password) {
   return response.data;
 }
 
-export async function verifyAsync(email, password) {
+export async function verifyAsync() {
   const response = await scrumigoApiService.get("/auth/verify");
+  return response.data;
+}
+
+export async function getUserAsync(userId) {
+  const response = await scrumigoApiService.get(`/users/${userId}`);
   return response.data;
 }
 

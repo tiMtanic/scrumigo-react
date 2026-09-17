@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Card,
   Chip,
@@ -15,15 +15,10 @@ import {
   LoaderCircle,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {
-  deleteTaskAsync,
-  getSprintsAsync,
-  getUserStoryAsync,
-  updateTaskAsync,
-} from "../services/scrumigoApi.service";
 import DesktopBoard from "../components/DesktopBoard";
 import MobileStoriesPanel from "../components/MobileStoriesPanel";
 import MobileTaskPanel from "../components/MobileTaskPanel";
+import { SprintBoardContext } from "../context/sprintBoard.context";
 
 const taskStatuses = [
   {
@@ -48,59 +43,17 @@ const taskStatuses = [
 
 function SprintBoardPage() {
   const navigate = useNavigate();
-  const [sprint, setSprint] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
   const [mobileColumn, setMobileColumn] = useState("stories");
-
-  useEffect(() => {
-    loadSprint();
-  }, []);
-
-  const loadSprint = async () => {
-    setIsLoading(true);
-    setErrorMessage(null);
-
-    try {
-      const sprints = await getSprintsAsync(true);
-      const activeSprint = sprints.find((sprint) => sprint.status === "active");
-
-      if (!activeSprint) {
-        setSprint(null);
-        return;
-      }
-
-      const userStories = await Promise.all(
-        (activeSprint.userStories ?? []).map((story) =>
-          getUserStoryAsync(
-            typeof story === "string" ? story : story._id,
-            false,
-            true,
-          ),
-        ),
-      );
-
-      setSprint({
-        ...activeSprint,
-        userStories,
-      });
-    } catch (error) {
-      console.log(error);
-      setErrorMessage("Could not load the sprint board.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleUpdateTask = async (taskId, taskData) => {
-    await updateTaskAsync(taskId, taskData);
-    await loadSprint();
-  };
-
-  const handleDeleteTask = async (taskId) => {
-    await deleteTaskAsync(taskId);
-    await loadSprint();
-  };
+  const {
+    sprint,
+    isLoading,
+    errorMessage,
+    handleUpdateTask,
+    handleDeleteTask,
+    handleTaskStatusChange,
+    getTasksByStatus,
+    countTasksByStatus,
+  } = useContext(SprintBoardContext);
 
   const formatDate = (date) => {
     if (!date) return "-";
@@ -123,17 +76,6 @@ function SprintBoardPage() {
     if (days === 0) return "Ends today";
 
     return "Sprint ended";
-  };
-
-  const getTasksByStatus = (userStory, status) => {
-    return (userStory.tasks ?? []).filter((task) => task.status === status);
-  };
-
-  const countTasksByStatus = (userStories, status) => {
-    return userStories.reduce(
-      (total, story) => total + getTasksByStatus(story, status).length,
-      0,
-    );
   };
 
   if (isLoading) {
@@ -218,6 +160,7 @@ function SprintBoardPage() {
             onStoryClick={(storyId) => navigate(`/userStories/${storyId}`)}
             onUpdateTask={handleUpdateTask}
             onDeleteTask={handleDeleteTask}
+            onTaskStatusChange={handleTaskStatusChange}
             countTasksByStatus={countTasksByStatus}
             getTasksByStatus={getTasksByStatus}
           />

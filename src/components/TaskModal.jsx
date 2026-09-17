@@ -3,7 +3,18 @@ import { Button, Modal, useOverlayState } from "@heroui/react";
 import TaskRow from "./TaskRow";
 import TaskForm from "./TaskForm";
 
-function TaskModal({ task, trigger, triggerClassName, onUpdate, onDelete }) {
+function TaskModal({
+  task,
+  trigger,
+  triggerClassName,
+  onUpdate,
+  onDelete,
+  dragRef,
+  dragListeners,
+  dragAttributes,
+  dragStyle,
+  isDragging,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -40,10 +51,19 @@ function TaskModal({ task, trigger, triggerClassName, onUpdate, onDelete }) {
 
   return (
     <Modal state={state}>
-      <Button type="button" variant="ghost" className={triggerClassName}>
+      <Button
+        ref={dragRef}
+        type="button"
+        variant="ghost"
+        className={`${triggerClassName} ${
+          isDragging ? "cursor-grabbing" : "cursor-grab active:cursor-grabbing"
+        }`}
+        style={dragStyle}
+        {...dragListeners}
+        {...dragAttributes}
+      >
         {trigger}
       </Button>
-
       <Modal.Backdrop variant="blur">
         <Modal.Container size="lg">
           <Modal.Dialog>
