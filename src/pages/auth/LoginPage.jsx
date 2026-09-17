@@ -12,8 +12,9 @@ import {
 } from "@heroui/react";
 import { AuthContext } from "../../context/auth.context";
 import { useNavigate, Link } from "react-router-dom";
-import scrumigoApiService, { loginAsync } from "../../services/scrumigoApi.service.js";
+import { loginAsync } from "../../services/scrumigoApi.service.js";
 import { Key } from "lucide-react";
+import scrumigoLogoFull from "../../assets/scrumigo_logo_full.png";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -52,12 +53,11 @@ function LoginPage() {
         </div>
       ) : (
         <div className="relative w-full max-w-md">
-          <Typography
-            type="h1"
-            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-10"
-          >
-            SCRUMiGO
-          </Typography>
+          <img
+            src={scrumigoLogoFull}
+            alt="SCRUMiGO"
+            className="absolute bottom-full left-1/2 mb-5 h-22 -translate-x-1/2 object-contain"
+          />
           <Card className="w-full max-w-md">
             <Card.Header>
               <Card.Title className="flex items-center justify-center gap-1 mb-2">

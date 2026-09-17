@@ -13,7 +13,6 @@ function TaskBoardCard({
   isDragging,
 }) {
   const getAssigneeName = (task) => {
-    console.log(task);
     if (!task.assigneeId) {
       return "Unassigned";
     }

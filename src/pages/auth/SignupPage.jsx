@@ -12,8 +12,9 @@ import {
 } from "@heroui/react";
 import { AuthContext } from "../../context/auth.context.jsx";
 import { useNavigate, Link } from "react-router-dom";
-import scrumigoApiService, { signUpAsync } from "../../services/scrumigoApi.service.js";
+import { signUpAsync } from "../../services/scrumigoApi.service.js";
 import { UserPlus } from "lucide-react";
+import scrumigoLogoFull from "../../assets/scrumigo_logo_full.png";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -32,8 +33,6 @@ function SignupPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
-
 
     try {
       const result = await signUpAsync(name, surname, email, password);
@@ -56,12 +55,11 @@ function SignupPage() {
         </div>
       ) : (
         <div className="relative w-full max-w-md">
-          <Typography
-            type="h1"
-            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-10"
-          >
-            SCRUMiGO
-          </Typography>
+          <img
+            src={scrumigoLogoFull}
+            alt="SCRUMiGO"
+            className="absolute bottom-full left-1/2 mb-5 h-22 -translate-x-1/2 object-contain"
+          />
           <Card className="w-full max-w-md">
             <Card.Header>
               <Card.Title className="flex items-center justify-center gap-1 mb-2">

@@ -33,10 +33,8 @@ function App() {
         <div className="flex h-full flex-col">
           <AppHeader />
           <div className="flex flex-1">
-            <div className="hidden md:block w-3xs border-r">
-              <nav className="flex flex-col gap-1 p-2">
-                <MainMenuContent />
-              </nav>
+            <div className="hidden w-3xs flex-col border-r md:flex">
+              <MainMenuContent />
             </div>
             <main className="flex flex-1 justify-around bg-background">
               <Routes>
