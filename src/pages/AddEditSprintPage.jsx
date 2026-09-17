@@ -98,6 +98,10 @@ function AddEditSprintPage({ mode }) {
         return false;
       }
 
+      if (story.sprintId) {
+        return false;
+      }
+
       const storyNumber = `US-${story.userStoryNumber}`.toLowerCase();
       const title = story.title?.toLowerCase() ?? "";
       const description = story.description?.toLowerCase() ?? "";

@@ -39,7 +39,7 @@ function App() {
             <main className="flex flex-1 justify-around bg-background">
               <Routes>
                 <Route
-                  path="/board"
+                  path="/"
                   element={
                     <PageLayout>
                       <SprintBoardPage />

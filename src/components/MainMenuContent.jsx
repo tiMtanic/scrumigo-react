@@ -11,7 +11,7 @@ function MainMenuContent({ onNavigate }) {
   const menuItems = [
     {
       text: "Sprint Board",
-      path: "/board",
+      path: "/",
       icon: Columns3,
     },
     {
