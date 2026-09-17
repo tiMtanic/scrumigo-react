@@ -29,8 +29,8 @@ function AuthWrapper({ children }) {
       const result = await verifyAsync();
       setIsLoggedIn(true);
       setUserId(result.payload._id);
-      setName(payload.name ?? "");
-      setSurname(payload.surname ?? "");
+      setName(result.payload.name ?? "");
+      setSurname(result.payload.surname ?? "");
     } catch (error) {
       setIsLoggedIn(false);
       setUserId(null);
