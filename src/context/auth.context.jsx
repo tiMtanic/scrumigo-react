@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { verifyAsync } from "../services/scrumigoApi.service.js";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "@heroui/react";
 
 const AuthContext = createContext();
 
@@ -62,7 +63,12 @@ function AuthWrapper({ children }) {
   };
 
   if (isVerifyingUser) {
-    return <h3>Verifying User Credentials...</h3>;
+    return (
+      <div className="flex min-h-dvh flex-col items-center justify-center gap-3">
+        <Spinner size="lg" />
+        <p className="text-sm text-muted">Verifying User Credentials</p>
+      </div>
+    );
   }
 
   return (
