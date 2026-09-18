@@ -1,6 +1,10 @@
 # SCRUMiGO
 
-## Database Model
+***SCRUMiGO*** is a simple SCRUM collaboration app, with a sprint board that supports tracking the work progress of multiple users.
+
+## Additional Information
+
+### Data Model
 ```mermaid
 erDiagram
     USER {
@@ -21,18 +25,20 @@ erDiagram
         date startDate
         date endDate
         string status
+        ObjectId userStories FK "array"
         datetime createdAt
         datetime updatedAt
     }
 
     USERSTORY {
         ObjectId _id PK
-        ObjectId sprintId FK
         number userStoryNumber
+        ObjectId sprintId FK "optional"
         string title
         string description
+        string status
         number storyPoints
-        ObjectId createdBy FK
+        ObjectId tasks FK "array"
         datetime createdAt
         datetime updatedAt
     }
@@ -40,32 +46,42 @@ erDiagram
     TASK {
         ObjectId _id PK
         number taskNumber
-        number position
         string title
         string description
         string status
         ObjectId userStoryId FK
-        ObjectId assigneeId FK
+        ObjectId assigneeId FK "optional"
         datetime createdAt
         datetime updatedAt
     }
 
-    COMMENT {
-        ObjectId _id PK
-        number commentNumber
-        ObjectId taskId FK
-        ObjectId authorId FK
-        string content
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    SPRINT ||--o{ USERSTORY : contains
+    SPRINT o|--o{ USERSTORY : contains
     USER ||--o{ USERSTORY : creates
-
     USERSTORY ||--o{ TASK : contains
-    USER ||--o{ TASK : assigned_to
-
-    TASK ||--o{ COMMENT : has
-    USER ||--o{ COMMENT : writes
+    USER o|--o{ TASK : assigned_to
 ```
+
+### Tools Used
+
+[Figma](https://www.figma.com/)\
+[Visual Studio Code](https://code.visualstudio.com/)\
+[Adobe Photoshop](https://www.adobe.com/products/photoshop.html)\
+[ChatGPT 5.6-Sol](https://chatgpt.com/)\
+[MongoDB Compass](https://www.mongodb.com/products/tools/compass)\
+[Postman](https://www.postman.com/)
+
+### Resources Used
+
+[MDN Web Docs](https://developer.mozilla.org/en-US/)\
+[W3Schools](https://www.w3schools.com/)\
+[StackOverflow](https://stackoverflow.com/)\
+[HeroUI](https://heroui.com/)\
+[Tailwind](https://v3.tailwindcss.com/)\
+[Lucide Icons](https://lucide.dev/icons/)\
+[Vite](https://vite.dev/)\
+[React](https://react.dev/)\
+[React Router](https://reactrouter.com/)\
+[DNDKit](https://dndkit.com/)\
+[Express.js](https://expressjs.com/)\
+[MongoDB](https://www.mongodb.com/)\
+[Mongoose](https://mongoosejs.com/)
